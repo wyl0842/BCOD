@@ -135,6 +135,10 @@ class DetLocalVisualizer(Visualizer):
                 else self.bbox_color
             bbox_palette = get_palette(bbox_color, max_label + 1)
             colors = [bbox_palette[label] for label in labels]
+            if 'scores' in instances:
+                colors = (255, 0, 0) # 预测框红色
+            else:
+                colors = (0, 255, 0) # 标注框绿色
             self.draw_bboxes(
                 bboxes,
                 edge_colors=colors,
@@ -459,6 +463,7 @@ class DetLocalVisualizer(Visualizer):
                 gt_img_data = self._draw_panoptic_seg(
                     gt_img_data, data_sample.gt_panoptic_seg, classes, palette)
 
+        image = gt_img_data
         if draw_pred and data_sample is not None:
             pred_img_data = image
             if 'pred_instances' in data_sample:
@@ -482,6 +487,7 @@ class DetLocalVisualizer(Visualizer):
                     pred_img_data, data_sample.pred_panoptic_seg.numpy(),
                     classes, palette)
 
+        gt_img_data = None
         if gt_img_data is not None and pred_img_data is not None:
             drawn_img = np.concatenate((gt_img_data, pred_img_data), axis=1)
         elif gt_img_data is not None:
