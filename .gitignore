@@ -123,5 +123,5 @@ work_dirs/
 *.sh~
 
 # others
-.outputs/
-.checkpoints/
+outputs/
+checkpoints/
